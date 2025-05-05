@@ -1,4 +1,4 @@
-public class LightBoard
+public class LightBoard 
 {
   /** The lights on the board, where true represents on and false represents off. */
   private boolean[][] lights;
@@ -33,13 +33,13 @@ public class LightBoard
     int onCount = 0;
     for (int r = 0; r < lights.length; r++)
     {
-      if (lights[r][col])
+      if (r != row && lights[r][col]) // Exclude the light itself
       {
         onCount++;
       }
     }
 
-    return onCount % 2 != 0; // true if odd, false if even
+    return onCount % 2 == 1; // true if odd, false if even
   }
 
   public boolean[][] getLights()
@@ -55,10 +55,7 @@ public class LightBoard
     {
       for (int c = 0; c < lights[0].length; c++)
       {
-        if (lights[r][c])
-          s += "*";
-        else
-          s += ".";
+        s += lights[r][c] ? "*" : ".";
       }
       s += "\n";
     }
