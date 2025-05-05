@@ -1,6 +1,7 @@
-public class LightBoard 
+public class LightBoard
 {
-  /** The lights on the board, where true represents on and false represents off. */
+  /** The lights on the board, where true represents on and false represents off.
+   */
   private boolean[][] lights;
 
   /** Constructs a LightBoard object having numRows rows and numCols columns.
@@ -9,14 +10,13 @@ public class LightBoard
    */
   public LightBoard(int numRows, int numCols)
   {
-    lights = new boolean[numRows][numCols];
-    for (int r = 0; r < numRows; r++)
-    {
-      for (int c = 0; c < numCols; c++)
-      {
-        lights[r][c] = Math.random() < 0.4;
-      }
-    }
+  lights = new boolean[numRows][numCols];
+
+    for(int r = 0; r < lights.length; r++)
+        for(int c = 0; c < lights[0].length; c++)
+            if(Math.random() <= 0.4)
+                lights[r][c] = true;
+
   }
 
   /** Evaluates a light in row index row and column index col and returns a status
@@ -25,40 +25,45 @@ public class LightBoard
    */
   public boolean evaluateLight(int row, int col)
   {
-    if (!lights[row][col])
+int onInColumn = 0;
+
+    for(int r = 0; r < lights.length; r++)
+        if(lights[r][col])
+            onInColumn++;
+
+    if(lights[row][col])
     {
-      return false;
+        if(onInColumn % 2 == 0)
+            return false;
+    }
+    else
+    {
+        if(onInColumn % 3 == 0)
+            return true;
     }
 
-    int onCount = 0;
-    for (int r = 0; r < lights.length; r++)
-    {
-      if (r != row && lights[r][col]) // Exclude the light itself
-      {
-        onCount++;
-      }
-    }
-
-    return onCount % 2 == 1; // true if odd, false if even
+    return lights[row][col];
+   
+ 
   }
-
   public boolean[][] getLights()
   {
     return lights;
   }
-
-  // Used for testing
+  //used for testing
   public String toString()
   {
     String s = "";
     for (int r = 0; r < lights.length; r++)
     {
       for (int c = 0; c < lights[0].length; c++)
-      {
-        s += lights[r][c] ? "*" : ".";
-      }
+        if (lights[r][c])
+          s += "*";
+        else
+          s += ".";
       s += "\n";
     }
     return s;
   }
+  
 }
