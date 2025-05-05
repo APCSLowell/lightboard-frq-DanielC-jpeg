@@ -10,12 +10,12 @@ public class LightBoard
    */
   public LightBoard(int numRows, int numCols)
   {
-  lights = new boolean[numRows][numCols];
-
-    for(int r = 0; r < lights.length; r++)
-        for(int c = 0; c < lights[0].length; c++)
-            if(Math.random() <= 0.4)
-                lights[r][c] = true;
+     lights = new boolean[numRows][numCols];
+    for (int r = 0; r < numRows; r++) {
+        for (int c = 0; c < numCols; c++) {
+            lights[r][c] = Math.random() < 0.4;
+        }
+    }
 
   }
 
@@ -24,26 +24,25 @@ public class LightBoard
    *  Precondition: row and col are valid indexes in lights.
    */
   public boolean evaluateLight(int row, int col)
-  {
-int onInColumn = 0;
+  { 
+    int onCount = 0;
 
-    for(int r = 0; r < lights.length; r++)
-        if(lights[r][col])
-            onInColumn++;
-
-    if(lights[row][col])
-    {
-        if(onInColumn % 2 == 0)
-            return false;
-    }
-    else
-    {
-        if(onInColumn % 3 == 0)
-            return true;
+    // Count the number of lights that are on in the column
+    for (int r = 0; r < lights.length; r++) {
+        if (lights[r][col]) {
+            onCount++;
+        }
     }
 
-    return lights[row][col];
-   
+    boolean currentStatus = lights[row][col];
+
+    if (currentStatus && onCount % 2 == 0) {
+        return false;
+    } else if (!currentStatus && onCount % 3 == 0) {
+        return true;
+    } else {
+        return currentStatus;
+    }
  
   }
   public boolean[][] getLights()
@@ -66,4 +65,3 @@ int onInColumn = 0;
     return s;
   }
   
-}
